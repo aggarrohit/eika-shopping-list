@@ -1,0 +1,24 @@
+.sort {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.sort .label {
+  width: 20%;
+}
+
+.sort button {
+  width: 20%;
+  background-color: white;
+  border-width: 0;
+  cursor: pointer;
+}
+
+.sort .bold-text {
+  font-weight: bold;
+}
+
+.sort .simple-text {
+  font-weight: normal;
+}

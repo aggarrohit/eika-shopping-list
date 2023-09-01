@@ -1,0 +1,93 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+
+class User{
+-int:id (auto)
+-String:hashedPassword (bcrypt)
+-String:username (unique)
+-String:password
+}
+
+class Item{
+-int:id (auto)
+-boolean:isDone
+-String:name
+-float:price
+-String:imageUrl
+-int:userid
+}
+
+User "1" *-- "0..*" Item
+
+interface UserRepository{
++findByEmail(email:String):User
+}
+
+interface ItemRepository{
++findById(itemId:int):List<Item>
++findByUserId(userId:int):List<Item>
++findByUserIdOrderByNameDesc(userId:int):List<Item>
++findByUserIdOrderByPriceDesc(userId:int):List<Item>
++findByUserIdOrderByNameAsc(userId:int):List<Item>
++findByUserIdOrderByPriceAsc(userId:int):List<Item>
+}
+
+class ItemService{
++itemRepository:ItemRepository
++userService:UserService
+
++getSortedItemsForUser(email,sortBy,sortCriteria):List<Item>
++updateItemStatus(Item item, String email):Item
++addItem(Item item, String email):Item
+}
+
+class ItemController{
++itemService:ItemService
++getUserItems(email,sortBy,sortCriteria):List<Item>
++addItemWithEmail(file,email,item):Item
++updateItemStatus(item,email):ResponseEntity<Item>
+}
+
+ItemRepository --> Item
+ItemService --> ItemRepository
+ItemController --> ItemService
+
+
+class UserController{
++userService:UserService
++registerUser(user:User):ResponseEntity<User>
+}
+
+UserRepository --> User
+UserService --> UserRepository
+UserController --> UserService
+EikaUserDetails --> UserService
+
+class LoginController{
++getUserByEmail():ResponseEntity<String>
+}
+
+class ImageController{
++getImageByName(imageName:String):ResponseEntity<byte[]>
+}
+
+class ImageHandler{
+
++uploadImage(file:MultipartFile):String
+
+}
+
+class SecurityConfiguration{
+-allowedOrigin:String
++filterChain(http:HttpSecurity):SecurityFilterChain
++passwordEncoder():PasswordEncoder
+}
+
+class EikaUserDetails{
+-userService:UserService
++loadUserByUsername(username:String):UserDetails
+}
+
+@enduml

@@ -1,0 +1,44 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+
+left to right direction
+
+package Role{
+    actor User as U
+}
+
+package Actions{
+    usecase "Register" as R
+    usecase "Add Item" as AI
+    usecase "Item status update" as ISU
+    usecase "Sort items" as SI
+    usecase "View/Hide completed items" as VHCI
+
+}
+
+package IncludeActions{
+
+    usecase "Login" as LL
+
+
+}
+
+
+
+
+U --> (R)
+U --> (AI)
+U --> (ISU)
+U --> (SI)
+U --> (VHCI)
+
+
+(AI) .> (LL):include
+(ISU) .> (LL):include
+(SI) .> (LL):include
+(VHCI) .> (LL):include
+
+
+
+@enduml
